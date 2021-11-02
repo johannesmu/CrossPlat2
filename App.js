@@ -10,17 +10,45 @@ import { Home } from './components/Home';
 
 import { firebaseConfig } from './Config';
 import { initializeApp } from 'firebase/app';
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
 initializeApp(firebaseConfig)
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+  const [auth, setAuth] = useState()
+  const [user, setUser] = useState()
+
+  const SignupHandler = (email, password) => {
+    const auth = getAuth();
+    createUserWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      // Signed in 
+      const user = userCredential.user;
+      setUser(true)
+      setAuth(true)
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+    });
+  }
+
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Signup" component={Signup} />
-        <Stack.Screen name="Signin" component={Signin} />
+        {/* <Stack.Screen 
+          name="Signup" 
+          component={Signup}
+          options={{title:'Sign up'}} /> */}
+        <Stack.Screen name="Signup"  options={{title:'Sign up'}} >
+          { (props) => <Signup {...props} handler={SignupHandler} auth={auth} /> }
+        </Stack.Screen>
+        <Stack.Screen 
+          name="Signin" 
+          component={Signin} 
+          options={{title:'Sign in'}}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
