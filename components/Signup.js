@@ -1,16 +1,63 @@
 import React from 'react';
-import { View, Text, StyleSheet, Button } from "react-native";
+import { View, Text, StyleSheet, Button, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform } from "react-native";
 import {useNavigation} from '@react-navigation/native';
+import { ThemeColours } from './ThemeColours';
 
-
-export function Signup (props){
+export function Signup(props) {
 
     const navigation = useNavigation()
-
-    return(
-        <View>
-            <Text>SIGN UP</Text>
-            <Button title="Click here to sign in" onPress={ () => navigation.navigate('Signin')} />
+  
+    return (
+      <View style={styles.container}>
+        <Text>Sign up</Text>
+        <KeyboardAvoidingView 
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+        >
+        <View style={styles.inner}>
+          <Text>Email</Text>
+          <TextInput style={styles.input} />
+          <Text>Password</Text>
+          <TextInput style={styles.input} />
+          <TouchableOpacity style={styles.button}>
+            <Text style={styles.buttonText}>Sign up</Text>
+          </TouchableOpacity>
+          <Text>Already have an account?</Text>
+          <Button title="Click here to sign in" onPress={() => navigation.navigate("Signin")} />
         </View>
-    ) 
-}
+        </KeyboardAvoidingView>
+        
+      </View>
+    )
+  }
+
+  const styles = StyleSheet.create( {
+    input: {
+      backgroundColor: ThemeColours.cultured,
+      fontSize: 16,
+      padding: 5,
+      borderRadius: 4,
+    },
+    button: {
+      marginVertical: 15,
+      backgroundColor: ThemeColours.cerise,
+      padding: 10,
+      borderRadius: 10,
+    },
+    container: {
+      flex: 1,
+      backgroundColor: ThemeColours.turquoise,
+      justifyContent: 'center',
+      alignItems: 'center'
+    },
+    buttonText: {
+      color: ThemeColours.cultured,
+      textAlign: 'center',
+    },
+    inner: {
+      width: 300,
+      marginBottom: 90,
+    },
+    kb: {
+      flex: 1,
+    }
+  })
