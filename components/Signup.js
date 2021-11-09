@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Button, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform } from "react-native";
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import { ThemeColours } from './ThemeColours';
 
 export function Signup(props) {
     const [validEmail, setValidEmail] = useState()
-    const [ validPassword, setValidPassword] = useState()
+    const [validPassword, setValidPassword] = useState()
     const [validForm, setValidForm] = useState()
+
+    const[email,setEmail] = useState()
+    const[password,setPassword] = useState()
 
     const navigation = useNavigation()
   
@@ -17,6 +20,7 @@ export function Signup(props) {
         else {
             setValidEmail(false)
         }
+        setEmail(emailVal)
     }
 
     const validatePassword = (passwordVal) => {
@@ -26,6 +30,12 @@ export function Signup(props) {
         else {
             setValidPassword(false)
         }
+        setPassword(passwordVal)
+    }
+
+    const submitHandler = () => {
+      console.log('submitting')
+      props.handler( email, password )
     }
 
     useEffect( () => {
@@ -37,6 +47,12 @@ export function Signup(props) {
         }
       }, [validEmail, validPassword])
 
+    useEffect( () => {
+      if( props.auth === true ) {
+        navigation.reset({ index: 0, routes: [ {name: 'Home'} ] })
+      }
+    }, [props.auth])
+
     return (
       <View style={styles.container}>
         <Text>Sign up</Text>
@@ -47,9 +63,13 @@ export function Signup(props) {
           <Text>Email</Text>
           <TextInput style={styles.input} onChangeText={ (val) => validateEmail(val) } />
           <Text>Password</Text>
-          <TextInput style={styles.input} onChangeText={ (val) => validatePassword(val) } />
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>Sign up</Text>
+          <TextInput style={styles.input} onChangeText={ (val) => validatePassword(val) } secureTextEntry={true}  />
+          <TouchableOpacity 
+          style={ (validForm) ? styles.button : styles.buttonDisabled} 
+          disabled={ (validForm) ? false : true }
+          onPress={ () => submitHandler() }
+          >
+          <Text style={styles.buttonText}>Sign up</Text>
           </TouchableOpacity>
           <Text>Already have an account?</Text>
           <Button title="Click here to sign in" onPress={() => navigation.navigate("Signin")} />
@@ -70,6 +90,12 @@ export function Signup(props) {
     button: {
       marginVertical: 15,
       backgroundColor: ThemeColours.cerise,
+      padding: 10,
+      borderRadius: 10,
+    },
+    buttonDisabled: {
+      marginVertical: 15,
+      backgroundColor: ThemeColours.ceriseLight,
       padding: 10,
       borderRadius: 10,
     },
