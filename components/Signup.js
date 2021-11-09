@@ -24,7 +24,7 @@ export function Signup(props) {
     }
 
     const validatePassword = (passwordVal) => {
-        if(passwordVall.length >= 8){
+        if(passwordVal.length >= 8){
             setValidPassword(true)
         }
         else {
@@ -50,6 +50,7 @@ export function Signup(props) {
     useEffect( () => {
       if( props.auth === true ) {
         navigation.reset({ index: 0, routes: [ {name: 'Home'} ] })
+        //navigation.navigate('Home')
       }
     }, [props.auth])
 

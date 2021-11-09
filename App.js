@@ -49,6 +49,7 @@ export default function App() {
           name="Signin" 
           component={Signin} 
           options={{title:'Sign in'}}/>
+        <Stack.Screen name="Home" component={Home} />
       </Stack.Navigator>
     </NavigationContainer>
   );
