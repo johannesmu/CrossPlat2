@@ -19,10 +19,10 @@ export function Signin (props){
           <Text>Password</Text>
           <TextInput style={styles.input} />
           <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>Sign up</Text>
+            <Text style={styles.buttonText}>Sign in</Text>
           </TouchableOpacity>
-          <Text>Already have an account?</Text>
-          <Button title="Click here to sign in" onPress={() => navigation.navigate("Signin")} />
+          <Text>Don't have an account?</Text>
+          <Button title="Click here to sign up" onPress={() => navigation.navigate("Signup")} />
         </View>
         </KeyboardAvoidingView>
         
