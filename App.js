@@ -38,13 +38,13 @@ export default function App() {
   })
  
   const SignupHandler = ( email, password ) => {
-    createUserWithEmailAndPassword( auth, email, password )
+    createUserWithEmailAndPassword( FBauth, email, password )
     .then( (userCredential) => { 
       console.log(userCredential) 
       setUser(userCredential)
       setAuth(true)
     } )
-    .catch( (error) => { 
+    .catch( (error) => {
       setSignupError(error.code)
     })
   }
@@ -55,7 +55,7 @@ export default function App() {
       setUser(userCredential)
       setAuth(true)
     })
-    .catch( (error) => { 
+    .catch( (error) => {
       setSigninError(error.code)
      })
   }

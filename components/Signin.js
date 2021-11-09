@@ -16,7 +16,7 @@ export function Signin (props){
   
     return (
       <View style={styles.container}>
-        <Text>Sign up</Text>
+        <Text>Sign in</Text>
         <KeyboardAvoidingView 
           behavior={Platform.OS === "ios" ? "padding" : "height"}
         >
