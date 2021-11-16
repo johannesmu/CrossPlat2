@@ -1,12 +1,18 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Button, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import { ThemeColours } from './ThemeColours';
 import { Feedback } from './Feedback';
 
 export function Signin (props){
-
     const navigation = useNavigation()
+    const [email, setEmail] = useState()
+    const [password, setPassword] = useState()
+
+    const submitHandler = () => {
+      console.log('submitting')
+      props.handler( email, password )
+    }
 
     useEffect( () => {
       if(props.auth === true) {
@@ -22,10 +28,10 @@ export function Signin (props){
         >
         <View style={styles.inner}>
           <Text>Email</Text>
-          <TextInput style={styles.input} />
+          <TextInput style={styles.input} onChangeText={ (val) => setEmail(val) } />
           <Text>Password</Text>
-          <TextInput style={styles.input} secureTextEntry={true} />
-          <TouchableOpacity style={styles.button}>
+          <TextInput style={styles.input} secureTextEntry={true} onChangeText={ (val) => setPassword(val) } />
+          <TouchableOpacity style={styles.button} onPress={submitHandler}>
             <Text style={styles.buttonText}>Sign in</Text>
           </TouchableOpacity>
           <Feedback message={props.error} />
