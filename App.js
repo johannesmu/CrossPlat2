@@ -12,6 +12,7 @@ import { Signout } from './components/Signout';
 import { firebaseConfig } from './Config';
 import { initializeApp } from 'firebase/app';
 import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore"; 
 
 initializeApp(firebaseConfig)
 
@@ -24,6 +25,8 @@ export default function App() {
   const [signinError, setSigninError] = useState()
 
   const FBauth = getAuth()
+  const firestore = getFirestore()
+
 
   useEffect( () => {
     onAuthStateChanged(FBauth, (user) => {
@@ -40,8 +43,8 @@ export default function App() {
  
   const SignupHandler = ( email, password ) => {
     createUserWithEmailAndPassword( FBauth, email, password )
-    .then( (userCredential) => { 
-      console.log(userCredential) 
+    .then( (userCredential) => {
+      addDoc(collection(firestore, 'users'), {id: userCredential.user.uid, email: userCredential.user.email})
       setUser(userCredential)
       setAuth(true)
     } )
@@ -67,6 +70,12 @@ export default function App() {
       setUser(null)
     })
     .catch( (error) => console.log(error.code) )
+  }
+
+  // Firestore add user to database
+  const addData = (collection, data) => {
+    // Add a new document in collection "cities"
+    await setDoc(doc(firestore, collection, data.id), data );
   }
 
   return (
