@@ -1,3 +1,4 @@
+// Imports
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Button, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform } from "react-native";
 import { useNavigation } from '@react-navigation/native';
@@ -5,6 +6,7 @@ import { ThemeColours } from './ThemeColours';
 import { Feedback } from './Feedback';
 
 export function Signin (props){
+    
     const navigation = useNavigation()
     const [email, setEmail] = useState()
     const [password, setPassword] = useState()
@@ -14,6 +16,7 @@ export function Signin (props){
       props.handler( email, password )
     }
 
+    // Gome home after authentication
     useEffect( () => {
       if(props.auth === true) {
         navigation.reset({ index: 0, routes: [ {name: 'Home'} ] })

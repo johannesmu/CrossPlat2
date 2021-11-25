@@ -37,7 +37,7 @@ export function Home ( props ) {
       <Text></Text>
       <TouchableOpacity 
         style={styles.button} 
-        onPress={ () => { props.add('cities', data ) }}>
+        onPress={ () => { props.add('users', data ) }}>
         <Text>Add something</Text>
       </TouchableOpacity>
       <FlatList data={listData} renderItem={renderItem} keyExtractor={item => item.id} />

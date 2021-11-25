@@ -2,6 +2,7 @@ import React from 'react'
 import { TextInput, View, Text, TouchableOpacity, StyleSheet } from "react-native";
 
 export function AuthForm ( props ) {
+  
   return(
     <View>
       <Text>Email</Text>
