@@ -8,6 +8,9 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.36",
+    "@fortawesome/free-solid-svg-icons": "^5.15.4",
+    "@fortawesome/react-native-fontawesome": "^0.2.7",
     "@react-navigation/native": "^6.0.6",
     "@react-navigation/native-stack": "^6.2.5",
     "expo": "~43.0.0",
@@ -16,6 +19,7 @@
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-native": "0.64.2",
+    "react-native-bouncy-checkbox": "^2.1.7",
     "react-native-safe-area-context": "3.3.2",
     "react-native-screens": "~3.8.0",
     "react-native-web": "0.17.1"
