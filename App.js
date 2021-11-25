@@ -1,18 +1,18 @@
+// Imports
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-// components
+// My components
 import { Signup } from './components/Signup'
 import { Signin } from './components/Signin'
 import { Home } from './components/Home';
 import { Signout } from './components/Signout';
-// firebase
+// Firebase imports
 import { firebaseConfig } from './Config';
 import {initializeApp,} from 'firebase/app'
 import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebase/auth"
-
 import { 
   initializeFirestore, 
   getFirestore, 
@@ -20,12 +20,12 @@ import {
   doc, 
   addDoc, 
   collection,
-  query,
-  where,
-  onSnapshot
+  query, 
+  where, 
+  onSnapshot 
 } from 'firebase/firestore'
 
-
+// Initialise Firebase
 const FBapp = initializeApp( firebaseConfig)
 const FSdb = initializeFirestore(FBapp, {useFetchStreams: false})
 const FBauth = getAuth()
@@ -33,19 +33,20 @@ const FBauth = getAuth()
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+  // Use states
   const[ auth, setAuth ] = useState()
   const[ user, setUser ] = useState()
   const [signupError, setSignupError ] = useState()
   const [signinError, setSigninError ] = useState()
-
-  
+  const [ data, setData ] = useState()
 
   useEffect(() => {
-    onAuthStateChanged( FBauth, (user) => {
-      if( user ) { 
+    onAuthStateChanged(FBauth, (user) => {
+      if(user) { 
         setAuth(true) 
         setUser(user)
-        console.log( 'authed')
+        console.log('authed')
+        if(!data) { getData() }
       }
       else {
         setAuth(false)
@@ -54,28 +55,24 @@ export default function App() {
     })
   })
 
-  useEffect( () => {
-    if(!data && auth === true){
-      getData()
-    }
-  }, [data])
-
-  const SignupHandler = ( email, password ) => {
+  // Sign up code
+  const SignupHandler = (email, password) => {
     setSignupError(null)
-    createUserWithEmailAndPassword( FBauth, email, password )
-    .then( ( userCredential ) => { 
+    createUserWithEmailAndPassword(FBauth, email, password)
+    .then( (userCredential) => { 
       setUser(userCredential.user)
-      setAuth( true )
+      setAuth(true)
     } )
     .catch( (error) => { setSignupError(error.code) })
   }
 
-  const SigninHandler = ( email, password ) => {
-    signInWithEmailAndPassword( FBauth, email, password )
+  // Sign in code
+  const SigninHandler = (email, password) => {
+    signInWithEmailAndPassword(FBauth, email, password)
     .then( (userCredential) => {
       setUser(userCredential.user)
       setAuth(true)
-      console.log( userCredential.user.uid)
+      console.log(userCredential.user.uid)
     })
     .catch( (error) => { 
       const message = (error.code.includes('/') ) ? error.code.split('/')[1].replace(/-/g, ' ') : error.code
@@ -83,37 +80,38 @@ export default function App() {
     })
   }
 
+  // Sign out code
   const SignoutHandler = () => {
-    signOut( FBauth ).then( () => {
-      setAuth( false )
-      setUser( null )
+    signOut(FBauth).then( () => {
+      setAuth(false)
+      setUser(null)
     })
     .catch( (error) => console.log(error.code) )
   }
 
-  const addData = async ( FScollection , data ) => {
-    //adding data to a collection with automatic id
-    //const ref = await addDoc( collection(FSdb, FScollection ), data )
-    const ref = await setDoc( doc( FSdb, `users/${user.uid}/documents/${ new Date().getTime() }`), data )
-    //console.log( ref.id )
+  // Add data from firebase
+  const addData = async (FScollection , data) => {
+    // Add data to a collection with automatic id
+    //const ref = await addDoc(collection(FSdb, FScollection), data )
+    const ref = await setDoc(doc(FSdb, `users/${user.uid}/documents/${ new Date().getTime() }`), data)
+    console.log(ref.id)
   }
 
+  // Get data from firebase
   const getData = () => {
-    console.log('...getting data')
-    const FSquery = query(collection(FSdb, `users/${user.uid}/documents`))
+    console.log('...getting data', user)
+    const FSquery = query( collection(FSdb, `users/${user.uid}/documents`))
     const unsubscribe = onSnapshot(FSquery, (querySnapshot) => {
-      let FSdata = [] 
-      querySnapshot.forEach((doc) => {
+      let FSdata = []
+      querySnapshot.forEach( (doc) => {
         let item = {}
         item = doc.data()
         item.id = doc.id
-        FSdata.push(doc.data())
+        FSdata.push(item)
       })
       setData(FSdata)
-      console.log(FSdata)
     })
   }
-
 
   return (
     <NavigationContainer>
@@ -123,28 +121,24 @@ export default function App() {
           <Signup {...props} 
           handler={SignupHandler} 
           auth={auth} 
-          error={signupError} 
-          /> }
+          error={signupError} /> }
         </Stack.Screen>
         <Stack.Screen 
           name="Signin" 
           options={{
-            title:'Sign in'
-          }}
-        >
+          title:'Sign in'}} >
           { (props) => 
           <Signin {...props} 
           auth={auth} 
           error={signinError} 
-          handler={SigninHandler} 
-          /> }
+          handler={SigninHandler} /> }
         </Stack.Screen>
-        <Stack.Screen name="Home" options={{
+        <Stack.Screen 
+          name="Home" 
+          options={{
           headerTitle: "Home",
-          headerRight: (props) => <Signout {...props} handler={SignoutHandler} />
-        }}>
-          { (props) => 
-          <Home {...props} auth={auth} add={addData} data={data} /> }
+          headerRight: (props) => <Signout {...props} handler={SignoutHandler} user={user}/>}} >
+          { (props) => <Home {...props} auth={auth} add={addData} data={data} /> }
         </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
