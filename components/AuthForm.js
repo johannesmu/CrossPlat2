@@ -1,23 +1,28 @@
-import React from 'react'
-import { TextInput, View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import React from "react";
+import {
+  TextInput,
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+} from "react-native";
 
-export function AuthForm ( props ) {
-  
-  return(
+export function AuthForm(props) {
+  return (
     <View>
       <Text>Email</Text>
-      <TextInput style={styles.TextInput}/>
+      <TextInput style={styles.TextInput} />
       <Text>Password</Text>
-      <TextInput/>
+      <TextInput />
       <TouchableOpacity>
         <Text>{props.button}</Text>
       </TouchableOpacity>
     </View>
-  )
+  );
 }
 
-const styles = StyleSheet.create( {
+const styles = StyleSheet.create({
   input: {
-    backgroundColor: 'white'
-  }
-})
+    backgroundColor: "white",
+  },
+});

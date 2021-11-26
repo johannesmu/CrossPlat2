@@ -1,10 +1,10 @@
-import React from 'react';
+import React from "react";
 import { Text, View } from "react-native";
 
-export function Feedback (props) {
-    return(
-        <View>
-            <Text>{ props.message }</Text>
-        </View>
-    )
+export function Feedback(props) {
+  return (
+    <View>
+      <Text>{props.message}</Text>
+    </View>
+  );
 }
