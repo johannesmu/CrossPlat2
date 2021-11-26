@@ -244,12 +244,19 @@ export function Home(props) {
       </View>
 
       <View>
-        <TouchableOpacity 
-          style={styles.button} 
-          onPress={ () => { props.add('users', data ) }}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => {
+            props.add("users", data);
+          }}
+        >
           <Text>Add something</Text>
         </TouchableOpacity>
-        <FlatList data={listData} renderItem={renderItem} keyExtractor={item => item.id} />
+        <FlatList
+          data={listData}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.id}
+        />
       </View>
     </View>
   );
@@ -267,7 +274,7 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "column",
     backgroundColor: "#aebee8",
-    marginTop: Constants.statusBarHeight,
+    //marginTop: Constants.statusBarHeight,
   },
   listContainer: {
     flex: 1,
