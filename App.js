@@ -8,6 +8,7 @@ import { Signup } from "./components/Signup";
 import { Signin } from "./components/Signin";
 import { Home } from "./components/Home";
 import { Signout } from "./components/Signout";
+import { TabNavigation } from "./components/TabNavigation";
 // Firebase imports
 import { firebaseConfig } from "./Config";
 import { initializeApp } from "firebase/app";
@@ -29,6 +30,7 @@ import {
   where,
   onSnapshot,
 } from "firebase/firestore";
+import { AllTasks } from "./components/AllTasks";
 
 // Initialise Firebase
 const FBapp = initializeApp(firebaseConfig);
@@ -140,12 +142,7 @@ export default function App() {
             />
           )}
         </Stack.Screen>
-        <Stack.Screen
-          name="Signin"
-          options={{
-            title: "Sign in",
-          }}
-        >
+        <Stack.Screen name="Signin" options={{ title: "Sign in" }}>
           {(props) => (
             <Signin
               {...props}
@@ -163,8 +160,31 @@ export default function App() {
               <Signout {...props} handler={SignoutHandler} user={user} />
             ),
           }}
+          component={TabNavigation}
         >
           {(props) => <Home {...props} auth={auth} add={addData} data={data} />}
+        </Stack.Screen>
+        <Stack.Screen
+          name="Alltasks"
+          options={{ headerTitle: "All Tasks" }}
+          component={TabNavigation}
+        >
+          {(props) => (
+            <AllTasks
+            // {...props} auth={auth} add={addData} data={data}
+            />
+          )}
+        </Stack.Screen>
+        <Stack.Screen
+          name="Settings"
+          options={{ headerTitle: "Settings" }}
+          component={TabNavigation}
+        >
+          {(props) => (
+            <Settings
+            // {...props} auth={auth} add={addData} data={data}
+            />
+          )}
         </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
