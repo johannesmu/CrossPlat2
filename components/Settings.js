@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Switch,
-  TouchableOpacity,
-  Touchable,
-} from "react-native";
+import { View, Text, StyleSheet, Switch, TouchableOpacity } from "react-native";
 import { ThemeColours } from "./ThemeColours";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
@@ -17,8 +10,11 @@ import {
   faCopyright,
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
+import { useNavigation } from "@react-navigation/native";
 
 export function Settings() {
+  const navigation = useNavigation();
+
   return (
     <View style={styles.container}>
       <Text style={styles.headerText}>Settings</Text>
@@ -48,7 +44,7 @@ export function Settings() {
           <Text style={styles.text}>Privacy and Copyright</Text>
           <FontAwesomeIcon icon={faChevronRight} size={20} />
         </View>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate("SplashScreen")}>
           <View style={styles.row}>
             <Text style={styles.text}>
               App info and version (splash screen)

@@ -11,6 +11,7 @@ import { Signout } from "./components/Signout";
 import { TabNavigation } from "./components/TabNavigation";
 import { AllTasks } from "./components/AllTasks";
 import { Settings } from "./components/Settings";
+import { SplashScreen } from "./components/SplashScreen";
 // Firebase imports
 import { firebaseConfig } from "./Config";
 import { initializeApp } from "firebase/app";
@@ -32,6 +33,7 @@ import {
   where,
   onSnapshot,
 } from "firebase/firestore";
+
 
 // Initialise Firebase
 const FBapp = initializeApp(firebaseConfig);
@@ -186,6 +188,12 @@ export default function App() {
           //component={TabNavigation}
         >
           {(props) => <Settings {...props} />}
+        </Stack.Screen>
+        <Stack.Screen
+          name="SplashScreen"
+          //component={TabNavigation}
+        >
+          {(props) => <SplashScreen {...props} />}
         </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
