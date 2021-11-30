@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     display: "flex",
     fontSize: 30,
     fontFamily: "Copperplate",
-    marginBottom: 25,
+    marginBottom: 2,
     color: "white",
   },
   inner: {
@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     justifyContent: "center",
-    marginTop: 150,
+    marginTop: 120,
   },
   lowerText: {
     fontSize: 16,
