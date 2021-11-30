@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     justifyContent: "center",
-    marginTop: 120,
+    marginTop: 70,
   },
   lowerText: {
     fontSize: 16,
