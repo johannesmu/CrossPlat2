@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
     paddingVertical: 50,
   },
   input: {
-    backgroundColor: ThemeColours.cultured,
+    backgroundColor: "white",
     fontSize: 16,
     padding: 15,
     borderRadius: 10,
