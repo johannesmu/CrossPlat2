@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   Platform,
+  Image,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { ThemeColours } from "./ThemeColours";
@@ -64,20 +65,27 @@ export function Signup(props) {
 
   return (
     <View style={styles.container}>
-      <Text>Sign up</Text>
+      <Image source={require("../resources/icon.png")} style={styles.icon} />
+      <Text style={styles.headerText}>Task-It Sign Up</Text>
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
         <View style={styles.inner}>
-          <Text>Email</Text>
           <TextInput
+            placeholder="Email"
             style={styles.input}
             onChangeText={(val) => validateEmail(val)}
           />
-          <Text>Password</Text>
           <TextInput
+            placeholder="Password"
             style={styles.input}
             onChangeText={(val) => validatePassword(val)}
+            secureTextEntry={true}
+          />
+          <TextInput
+            placeholder="Confirm password"
+            style={styles.input}
+            //onChangeText={(val) => validatePassword(val)}
             secureTextEntry={true}
           />
           <TouchableOpacity
@@ -85,16 +93,15 @@ export function Signup(props) {
             disabled={validForm ? false : true}
             onPress={() => submitHandler()}
           >
-            <Text style={styles.buttonText}>Sign up</Text>
+            <Text style={styles.buttonText}>SIGN UP</Text>
           </TouchableOpacity>
           <Feedback message={props.error} />
-          <View style={styles.meta}>
-            <Text style={styles.metaText}>Already have an account?</Text>
-            <Button
-              title="Click here to sign in"
-              onPress={() => navigation.navigate("Signin")}
-            />
-          </View>
+        </View>
+        <View style={styles.lower}>
+          <Text style={styles.lowerText}>Already have an account?</Text>
+          <TouchableOpacity onPress={() => navigation.navigate("Signin")}>
+            <Text style={styles.lowerTextSignUp}> Sign in</Text>
+          </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
     </View>
@@ -102,47 +109,73 @@ export function Signup(props) {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    display: "flex",
+    flex: 1,
+    backgroundColor: ThemeColours.highlight,
+    justifyContent: "flex-end",
+    alignItems: "center",
+    paddingVertical: 50,
+  },
+  icon: {
+    display: "flex",
+    width: 150,
+    height: 150,
+  },
+  headerText: {
+    display: "flex",
+    fontSize: 30,
+    fontFamily: "Copperplate",
+    marginBottom: 2,
+    color: "white",
+  },
+  inner: {
+    display: "flex",
+    backgroundColor: ThemeColours.highlight,
+    paddingVertical: 50,
+  },
   input: {
     backgroundColor: ThemeColours.cultured,
     fontSize: 16,
-    padding: 5,
-    borderRadius: 4,
+    padding: 15,
+    borderRadius: 10,
+    marginBottom: 15,
+    width: 300,
   },
   button: {
-    marginVertical: 15,
-    backgroundColor: ThemeColours.cerise,
-    padding: 10,
+    backgroundColor: ThemeColours.mainBackground,
+    padding: 15,
     borderRadius: 10,
+    width: 120,
+    alignSelf: "flex-end",
   },
   buttonDisabled: {
-    marginVertical: 15,
-    backgroundColor: ThemeColours.ceriseLight,
-    padding: 10,
+    backgroundColor: "grey",
+    padding: 15,
     borderRadius: 10,
-  },
-  container: {
-    flex: 1,
-    backgroundColor: ThemeColours.turquoise,
-    justifyContent: "center",
-    alignItems: "center",
+    width: 120,
+    alignSelf: "flex-end",
   },
   buttonText: {
-    color: ThemeColours.cultured,
+    color: ThemeColours.highlight,
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "black",
     textAlign: "center",
   },
-  inner: {
-    width: 300,
-    marginBottom: 90,
+  lower: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    marginTop: 120,
   },
-  kb: {
-    flex: 1,
+  lowerText: {
+    fontSize: 16,
+    color: "white",
   },
-  meta: {
-    backgroundColor: ThemeColours.culturedTranslucent,
-    padding: 10,
-    borderRadius: 10,
-  },
-  metaText: {
-    textAlign: "center",
+  lowerTextSignUp: {
+    color: "white",
+    fontSize: 16,
+    fontWeight: "bold",
   },
 });
