@@ -33,7 +33,7 @@ import {
   where,
   onSnapshot,
 } from "firebase/firestore";
-
+import { ThemeColours } from "./components/ThemeColours";
 
 // Initialise Firebase
 const FBapp = initializeApp(firebaseConfig);
@@ -162,6 +162,9 @@ export default function App() {
             headerRight: (props) => (
               <Signout {...props} handler={SignoutHandler} user={user} />
             ),
+            headerStyle: {
+              backgroundColor: ThemeColours.mainBackground,
+            },
           }}
           //component={TabNavigation}
         >
@@ -177,20 +180,36 @@ export default function App() {
         </Stack.Screen>
         <Stack.Screen
           name="Alltasks"
-          options={{ headerTitle: "All Tasks" }}
+          options={{
+            headerTitle: "All Tasks",
+            headerStyle: {
+              backgroundColor: ThemeColours.mainBackground,
+            },
+          }}
           //component={TabNavigation}
         >
           {(props) => <AllTasks {...props} />}
         </Stack.Screen>
         <Stack.Screen
           name="Settings"
-          options={{ headerTitle: "Settings" }}
+          options={{
+            headerTitle: "Settings",
+            headerStyle: {
+              backgroundColor: ThemeColours.mainBackground,
+            },
+          }}
           //component={TabNavigation}
         >
           {(props) => <Settings {...props} />}
         </Stack.Screen>
         <Stack.Screen
           name="SplashScreen"
+          options={{
+            headerTitle: "App info",
+            headerStyle: {
+              backgroundColor: ThemeColours.mainBackground,
+            },
+          }}
           //component={TabNavigation}
         >
           {(props) => <SplashScreen {...props} />}

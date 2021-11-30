@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     borderColor: ThemeColours.highlight,
     borderWidth: 1,
-    backgroundColor: "white",
+    backgroundColor: ThemeColours.secondaryBackground,
   },
   headerText: {
     color: ThemeColours.highlight,
