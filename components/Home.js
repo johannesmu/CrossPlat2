@@ -7,11 +7,10 @@ import {
   TouchableOpacity,
   FlatList,
   TextInput,
-  Button
+  Button,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { ThemeColours } from "./ThemeColours";
-import { AllTasks } from "./AllTasks";
 
 import { ListItem } from "./ListItem";
 import Constants from "expo-constants";
@@ -247,8 +246,12 @@ export function Home(props) {
 
       <View>
         <Button
-          title="Go to All tasks"
-          onPress={ () => navigation.navigate('Alltasks')}
+          title="All Tasks test"
+          onPress={() => navigation.navigate("Alltasks")}
+        />
+        <Button
+          title="Settings test"
+          onPress={() => navigation.navigate("Settings")}
         />
         <TouchableOpacity
           style={styles.button}

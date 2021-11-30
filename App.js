@@ -9,6 +9,8 @@ import { Signin } from "./components/Signin";
 import { Home } from "./components/Home";
 import { Signout } from "./components/Signout";
 import { TabNavigation } from "./components/TabNavigation";
+import { AllTasks } from "./components/AllTasks";
+import { Settings } from "./components/Settings";
 // Firebase imports
 import { firebaseConfig } from "./Config";
 import { initializeApp } from "firebase/app";
@@ -30,7 +32,6 @@ import {
   where,
   onSnapshot,
 } from "firebase/firestore";
-import { AllTasks } from "./components/AllTasks";
 
 // Initialise Firebase
 const FBapp = initializeApp(firebaseConfig);
@@ -172,31 +173,20 @@ export default function App() {
             />
           )}
         </Stack.Screen>
-
-        {
-          <Stack.Screen
-            name="Alltasks"
-            options={{ headerTitle: "All Tasks" }}
-            //component={TabNavigation}
-          >
-            {(props) => (
-              <AllTasks
-               {...props} 
-              />
-            )}
-          </Stack.Screen>
-          /* <Stack.Screen
+        <Stack.Screen
+          name="Alltasks"
+          options={{ headerTitle: "All Tasks" }}
+          //component={TabNavigation}
+        >
+          {(props) => <AllTasks {...props} />}
+        </Stack.Screen>
+        <Stack.Screen
           name="Settings"
           options={{ headerTitle: "Settings" }}
-          component={TabNavigation}
+          //component={TabNavigation}
         >
-          {(props) => (
-            <Settings
-            // {...props} auth={auth} add={addData} data={data}
-            />
-          )}
-        </Stack.Screen> */
-        }
+          {(props) => <Settings {...props} />}
+        </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
   );
