@@ -160,22 +160,32 @@ export default function App() {
               <Signout {...props} handler={SignoutHandler} user={user} />
             ),
           }}
-          component={TabNavigation}
-        >
-          {(props) => <Home {...props} auth={auth} add={addData} data={data} />}
-        </Stack.Screen>
-        <Stack.Screen
-          name="Alltasks"
-          options={{ headerTitle: "All Tasks" }}
-          component={TabNavigation}
+          //component={TabNavigation}
         >
           {(props) => (
-            <AllTasks
-            // {...props} auth={auth} add={addData} data={data}
+            <Home
+              {...props}
+              auth={auth}
+              add={addData}
+              data={data}
+              //tab={TabNavigation}
             />
           )}
         </Stack.Screen>
-        <Stack.Screen
+
+        {
+          <Stack.Screen
+            name="Alltasks"
+            options={{ headerTitle: "All Tasks" }}
+            //component={TabNavigation}
+          >
+            {(props) => (
+              <AllTasks
+               {...props} 
+              />
+            )}
+          </Stack.Screen>
+          /* <Stack.Screen
           name="Settings"
           options={{ headerTitle: "Settings" }}
           component={TabNavigation}
@@ -185,7 +195,8 @@ export default function App() {
             // {...props} auth={auth} add={addData} data={data}
             />
           )}
-        </Stack.Screen>
+        </Stack.Screen> */
+        }
       </Stack.Navigator>
     </NavigationContainer>
   );

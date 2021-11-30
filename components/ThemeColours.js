@@ -4,4 +4,7 @@ export const ThemeColours = {
   turquoise: "hsla(173, 63%, 51%, 1)",
   black: "hsla(0, 0%, 3%, 1)",
   cerise: "hsla(345, 63%, 51%, 1)",
+
+  mainBackground: "hsla(223, 56%, 80%, 1)",
+  highlight: "hsla(224, 38%, 38%, 1)",
 };

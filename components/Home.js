@@ -7,9 +7,11 @@ import {
   TouchableOpacity,
   FlatList,
   TextInput,
+  Button
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { ThemeColours } from "./ThemeColours";
+import { AllTasks } from "./AllTasks";
 
 import { ListItem } from "./ListItem";
 import Constants from "expo-constants";
@@ -244,6 +246,10 @@ export function Home(props) {
       </View>
 
       <View>
+        <Button
+          title="Go to All tasks"
+          onPress={ () => navigation.navigate('Alltasks')}
+        />
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
@@ -273,7 +279,7 @@ const styles = StyleSheet.create({
     flex: 1,
     display: "flex",
     flexDirection: "column",
-    backgroundColor: "#aebee8",
+    backgroundColor: ThemeColours.mainBackground,
     //marginTop: Constants.statusBarHeight,
   },
   listContainer: {
@@ -285,7 +291,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   headerText: {
-    color: "#3d5187",
+    color: ThemeColours.highlight,
     fontSize: 25,
     fontWeight: "bold",
     flex: 1,
@@ -303,7 +309,7 @@ const styles = StyleSheet.create({
     padding: 15,
     display: "flex",
     flexDirection: "row",
-    backgroundColor: "#3d5187",
+    backgroundColor: ThemeColours.highlight,
     borderRadius: 10,
     marginTop: 5,
     alignItems: "center",

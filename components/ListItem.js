@@ -11,6 +11,7 @@ import {
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import { ThemeColours } from "./ThemeColours";
 
 export const ListItem = (props) => {
   return (
@@ -43,7 +44,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginBottom: 4,
-    backgroundColor: "#3d5187",
+    backgroundColor: ThemeColours.highlight,
   },
   text: {
     fontSize: 16,
