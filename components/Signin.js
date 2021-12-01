@@ -36,9 +36,6 @@ export function Signin(props) {
     <View style={styles.container}>
       <Image source={require("../resources/icon.png")} style={styles.icon} />
       <Text style={styles.headerText}>Task-It Sign In</Text>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-      >
         <View style={styles.inner}>
           <TextInput
             placeholder="Email"
@@ -62,7 +59,6 @@ export function Signin(props) {
             <Text style={styles.lowerTextSignUp}> Sign up</Text>
           </TouchableOpacity>
         </View>
-      </KeyboardAvoidingView>
     </View>
   );
 }

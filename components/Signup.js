@@ -67,43 +67,39 @@ export function Signup(props) {
     <View style={styles.container}>
       <Image source={require("../resources/icon.png")} style={styles.icon} />
       <Text style={styles.headerText}>Task-It Sign Up</Text>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-      >
-        <View style={styles.inner}>
-          <TextInput
-            placeholder="Email"
-            style={styles.input}
-            onChangeText={(val) => validateEmail(val)}
-          />
-          <TextInput
-            placeholder="Password"
-            style={styles.input}
-            onChangeText={(val) => validatePassword(val)}
-            secureTextEntry={true}
-          />
-          <TextInput
-            placeholder="Confirm password"
-            style={styles.input}
-            //onChangeText={(val) => validatePassword(val)}
-            secureTextEntry={true}
-          />
-          <TouchableOpacity
-            style={validForm ? styles.button : styles.buttonDisabled}
-            disabled={validForm ? false : true}
-            onPress={() => submitHandler()}
-          >
-            <Text style={styles.buttonText}>SIGN UP</Text>
-          </TouchableOpacity>
-          <Feedback message={props.error} />
-        </View>
-        <View style={styles.lower}>
-          <Text style={styles.lowerText}>Already have an account?</Text>
-          <TouchableOpacity onPress={() => navigation.navigate("Signin")}>
-            <Text style={styles.lowerTextSignUp}> Sign in</Text>
-          </TouchableOpacity>
-        </View>
-      </KeyboardAvoidingView>
+      <View style={styles.inner}>
+        <TextInput
+          placeholder="Email"
+          style={styles.input}
+          onChangeText={(val) => validateEmail(val)}
+        />
+        <TextInput
+          placeholder="Password"
+          style={styles.input}
+          onChangeText={(val) => validatePassword(val)}
+          secureTextEntry={true}
+        />
+        <TextInput
+          placeholder="Confirm password"
+          style={styles.input}
+          //onChangeText={(val) => validatePassword(val)}
+          secureTextEntry={true}
+        />
+        <TouchableOpacity
+          style={validForm ? styles.button : styles.buttonDisabled}
+          disabled={validForm ? false : true}
+          onPress={() => submitHandler()}
+        >
+          <Text style={styles.buttonText}>SIGN UP</Text>
+        </TouchableOpacity>
+        <Feedback message={props.error} />
+      </View>
+      <View style={styles.lower}>
+        <Text style={styles.lowerText}>Already have an account?</Text>
+        <TouchableOpacity onPress={() => navigation.navigate("Signin")}>
+          <Text style={styles.lowerTextSignUp}> Sign in</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
