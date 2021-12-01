@@ -200,7 +200,6 @@ export function Home(props) {
   };
 
   return (
-    <View style={{display:'flex', flex:1}}>
     <View style={styles.container}>
       <View style={styles.listContainer}>
         <View style={styles.header}>
@@ -274,32 +273,6 @@ export function Home(props) {
           keyExtractor={(item) => item.id}
         />
       </View>
-    </View>
-
-
-    {/* <Tab.Navigator>
-       <Tab.Screen 
-        name="Alltasks" 
-        options={{
-          tabBarLabel: "All Tasks",
-          // tabBarIcon: ({color,size}) => (
-          //   <Ionicons name="list-outline" color={color} size={size} />
-          // )
-        }}
-        >
-          { (props) => <AllTasks {...props} data={data} /> }
-        </Tab.Screen>
-         <Tab.Screen 
-        name="Settings" 
-        component={Settings} 
-        options={{
-          tabBarLabel: "Settings",
-          // tabBarIcon: ({color,size}) => (
-          //   <Ionicons name="add-outline" color={color} size={size} />
-          // )
-        }}
-        />
-    </Tab.Navigator> */}
     </View>
   );
 }

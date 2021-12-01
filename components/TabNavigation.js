@@ -9,12 +9,29 @@ export function TabNavigation() {
   const Tab = createBottomTabNavigator();
 
   return (
-    <NavigationContainer>
       <Tab.Navigator>
-        <Tab.Screen name="All tasks" component={AllTasks} />
-        <Tab.Screen name="Home" component={Home} />
-        <Tab.Screen name="Settings" component={Settings} />
+        <Tab.Screen
+          name="Alltasks"
+          options={{
+            tabBarLabel: "All Tasks",
+          }}
+        >
+          {(props) => <AllTasks {...props} data={data} />}
+        </Tab.Screen>
+        <Tab.Screen
+          name="Home"
+          component={Home}
+          options={{
+            tabBarLabel: "Home",
+          }}
+        />
+        <Tab.Screen
+          name="Settings"
+          component={Settings}
+          options={{
+            tabBarLabel: "Settings",
+          }}
+        />
       </Tab.Navigator>
-    </NavigationContainer>
   );
 }
