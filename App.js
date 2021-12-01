@@ -66,17 +66,26 @@ export default function App() {
     });
   });
 
-  // Sign up code
+  // Firebase sign up handler
   const SignupHandler = (email, password) => {
     setSignupError(null);
     createUserWithEmailAndPassword(FBauth, email, password)
       .then((userCredential) => {
         setUser(userCredential.user);
         setAuth(true);
+        // Add user to the 'user' collection
+        addUser(userCredential.user);
       })
       .catch((error) => {
         setSignupError(error.code);
       });
+  };
+
+  // Add user to Firebase collection 'users' with UID as documet name
+  const addUser = async (user) => {
+    await setDoc(doc(FSdb, "users", `${user.uid}`), {
+      email: `${user.email}`,
+    });
   };
 
   // Sign in code
@@ -155,6 +164,7 @@ export default function App() {
             />
           )}
         </Stack.Screen>
+        <Stack.Screen name="TabNavigation" component={TabNavigation} />
         <Stack.Screen
           name="Home"
           options={{
