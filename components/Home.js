@@ -23,7 +23,13 @@ import {
 import { firebaseConfig } from ".././Config";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { initializeApp } from "firebase/app";
-import { initializeFirestore, setDoc, doc } from "firebase/firestore";
+import {
+  initializeFirestore,
+  setDoc,
+  doc,
+  collection,
+  getDocs,
+} from "firebase/firestore";
 
 // My components
 import { ThemeColours } from "./ThemeColours";
@@ -41,20 +47,51 @@ export function Home(props) {
   //const [userData, setUserData] = useState();
   const [currentUser, setCurrentUser] = useState();
 
+  const [data, setData] = useState([]);
+  const [validInput, setValidInput] = useState(false);
+  const [input, setInput] = useState();
+  //const [appInit, setAppInit] = useState(true);
+  const [sortAsc, setSortAsc] = useState(false);
+
   // Get data of currently signed in user
-  onAuthStateChanged(FBauth, (user) => {
-    if (user) {
-      setCurrentUser(user);
+  useEffect(() => {
+    if (currentUser == null) {
+      onAuthStateChanged(FBauth, (user) => {
+        if (user) {
+          setCurrentUser(user);
+        }
+      });
     }
   });
 
-  // Go to sign in
+  // Go to sign in when authed
   useEffect(() => {
     if (!props.auth) {
       navigation.reset({ index: 0, routes: [{ name: "Signin" }] });
     }
-    console.log("Home useEffect test", props.user);
   }, [props.auth]);
+
+  useEffect(() => {
+    if (!data.length) {
+      console.log("length:", data.length);
+      getTasks();
+    }
+  });
+
+  // Get tasks
+  const getTasks = async () => {
+    const querySnapshot = await getDocs(
+      collection(FSdb, "users", `${currentUser.uid}`, "tasks")
+    );
+
+    querySnapshot.forEach((doc) => {
+      // doc.data() is never undefined for query doc snapshots
+      // Add results into data
+      setData(doc.data());
+      //console.log("Here are the tasks", doc.id, " => ", doc.data());
+      console.log("Tasks collected: ", data);
+    });
+  };
 
   // // Get user data
   // useEffect(() => {
@@ -69,15 +106,7 @@ export function Home(props) {
   //   </View>
   // );
 
-  // Get tasks
-
   // CODE FROM PREVIOUS PROTOTYPE
-
-  const [data, setData] = useState([]);
-  const [validInput, setValidInput] = useState(false);
-  const [input, setInput] = useState();
-  const [appInit, setAppInit] = useState(true);
-  const [sortAsc, setSortAsc] = useState(false);
 
   // useEffect ( () => {
   //   if(appInit){
@@ -108,12 +137,9 @@ export function Home(props) {
     setValidInput(false);
 
     addTask(item);
-
-    console.log("If you see this it's good news", item);
-    //props.add("users", data)
   };
 
-  // Add task to firebase database
+  // Add task to Firebase database
   const addTask = async (item) => {
     await setDoc(
       doc(FSdb, "users", `${currentUser.uid}`, "tasks", `${item.id}`),
@@ -137,13 +163,13 @@ export function Home(props) {
 
   // Set task's status (done/not done)
   const changeStatus = (id) => {
-    let items = [...data];
-    items.forEach((item) => {
-      if (item.id === id) {
-        item.status = !item.status;
-      }
-    });
-    setData(items);
+    // let items = [...data];
+    // items.forEach((item) => {
+    //   if (item.id === id) {
+    //     item.status = !item.status;
+    //   }
+    // });
+    // setData(items);
   };
 
   // // Retain data
@@ -184,13 +210,13 @@ export function Home(props) {
 
   // Delete all tasks marked as completed
   const deleteAllCompleted = () => {
-    let items = [...data];
-    let newItems = items.filter((item) => {
-      if (item.status == false) {
-        return item;
-      }
-    });
-    setData(newItems);
+    // let items = [...data];
+    // let newItems = items.filter((item) => {
+    //   if (item.status == false) {
+    //     return item;
+    //   }
+    // });
+    // setData(newItems);
   };
 
   // FlatList's items

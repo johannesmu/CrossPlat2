@@ -94,7 +94,7 @@ export default function App() {
       .then((userCredential) => {
         setUser(userCredential.user);
         setAuth(true);
-        console.log(userCredential.user.uid);
+        //console.log(userCredential.user.uid);
       })
       .catch((error) => {
         const message = error.code.includes("/")
