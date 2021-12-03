@@ -114,15 +114,10 @@ export default function App() {
       .catch((error) => console.log(error.code));
   };
 
-  // Add data from firebase
-  const addData = async (FScollection, data) => {
-    // Add data to a collection with automatic id
-    //const ref = await addDoc(collection(FSdb, FScollection), data )
-    const ref = await setDoc(
-      doc(FSdb, `users/${user.uid}/documents/${new Date().getTime()}`),
-      data
-    );
-    console.log(ref.id);
+  // Add task to Firebase user collection
+  const addTask = async (FScollection, data) => {
+    console.log(user.uid);
+    await setDoc(doc(FSdb, "users", `${user.uid}`, "tasks"), data);
   };
 
   // Get data from firebase
@@ -182,7 +177,7 @@ export default function App() {
             <Home
               {...props}
               auth={auth}
-              add={addData}
+              add={addTask}
               data={data}
               //tab={TabNavigation}
             />

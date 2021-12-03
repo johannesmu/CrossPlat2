@@ -12,12 +12,25 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
+// Firebase imports
+import { firebaseConfig } from ".././Config";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { initializeApp } from "firebase/app";
+import {
+  initializeFirestore,
+  getFirestore,
+  setDoc,
+  doc,
+  addDoc,
+  collection,
+  query,
+  where,
+  onSnapshot,
+} from "firebase/firestore";
+
 import { ThemeColours } from "./ThemeColours";
 import { ListItem } from "./ListItem";
-import { AllTasks } from "./AllTasks";
-import { Settings } from "./Settings";
 
-import Constants from "expo-constants";
 import { SearchBar } from "react-native-elements";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
@@ -27,26 +40,38 @@ import {
   faSortAmountUp,
 } from "@fortawesome/free-solid-svg-icons";
 
+// Initialise Firebase
+const FBapp = initializeApp(firebaseConfig);
+const FBauth = getAuth();
+const FSdb = initializeFirestore(FBapp, { useFetchStreams: false });
 const Tab = createBottomTabNavigator();
 
 export function Home(props) {
   const navigation = useNavigation();
   const [listData, setListData] = useState();
+  const [currentUser, setCurrentUser] = useState();
+
+  // Get data of currently signed in user
+  onAuthStateChanged(FBauth, (user) => {
+    if (user) {
+      setCurrentUser(user);
+    }
+  });
 
   // Go to sign in
   useEffect(() => {
     if (!props.auth) {
       navigation.reset({ index: 0, routes: [{ name: "Signin" }] });
     }
-    console.log(props.user);
+    console.log("Home useEffect test", props.user);
   }, [props.auth]);
 
-  // Get data
+  // Get user data
   useEffect(() => {
     setListData(props.data);
   }, [props.data]);
 
-  const data = { time: new Date().getTime(), user: Math.random() * 100 };
+  //const data = { time: new Date().getTime(), user: Math.random() * 100 };
 
   const renderItem = ({ item }) => (
     <View>
@@ -56,7 +81,7 @@ export function Home(props) {
 
   // CODE FROM PREVIOUS PROTOTYPE
 
-  //const [data, setData] = useState([])
+  const [data, setData] = useState([]);
   const [validInput, setValidInput] = useState(false);
   const [input, setInput] = useState();
   const [appInit, setAppInit] = useState(true);
@@ -84,11 +109,27 @@ export function Home(props) {
 
   // Add new task
   const onSubmit = () => {
-    // const id = new Date().getTime().toString()
-    // const item = {id: id, name: input, status: false}
-    // setData([...data, item])
-    // setInput(null)
-    // setValidInput(false)
+    const id = new Date().getTime().toString();
+    const item = { id: id, name: input, status: false };
+    //setData([...data, item]);
+    setInput(null);
+    setValidInput(false);
+
+    addTask(item);
+
+    console.log("If you see this it's good news", item);
+    //props.add("users", data)
+  };
+
+  // Add task to firebase database
+  const addTask = async (item) => {
+    await setDoc(
+      doc(FSdb, "users", `${currentUser.uid}`, "tasks", `${item.id}`),
+      {
+        name: `${item.name}`,
+        status: `${item.status}`,
+      }
+    );
   };
 
   // Delete task
@@ -180,7 +221,7 @@ export function Home(props) {
           <FontAwesomeIcon
             icon={faSortAmountUp}
             size={25}
-            style={{ color: "#3d5187" }}
+            style={{ color: ThemeColours.highlight }}
             onPress={sortData}
           />
         </TouchableOpacity>
@@ -191,7 +232,7 @@ export function Home(props) {
           <FontAwesomeIcon
             icon={faSortAmountDown}
             size={25}
-            style={{ color: "#3d5187" }}
+            style={{ color: ThemeColours.highlight }}
             onPress={sortData}
           />
         </TouchableOpacity>
@@ -217,8 +258,8 @@ export function Home(props) {
         <View>
           <FlatList
             data={data}
-            // keyExtractor={ (item) => item.id }
-            // renderItem={Renderer}
+            keyExtractor={(item) => item.id}
+            renderItem={Renderer}
           />
         </View>
 
@@ -238,7 +279,7 @@ export function Home(props) {
           <FontAwesomeIcon
             icon={faCheckSquare}
             size={35}
-            //onPress={onSubmit}
+            onPress={onSubmit}
             style={validInput ? styles.icon : styles.iconDisabled}
             disabled={validInput ? false : true}
           />
@@ -259,7 +300,7 @@ export function Home(props) {
           title="Settings test"
           onPress={() => navigation.navigate("Settings")}
         />
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={styles.button}
           onPress={() => {
             props.add("users", data);
@@ -271,7 +312,7 @@ export function Home(props) {
           data={listData}
           renderItem={renderItem}
           keyExtractor={(item) => item.id}
-        />
+        /> */}
       </View>
     </View>
   );
