@@ -1,4 +1,3 @@
-// Imports
 import React, { useEffect, useState } from "react";
 import {
   View,
@@ -11,26 +10,6 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-
-// Firebase imports
-import { firebaseConfig } from ".././Config";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { initializeApp } from "firebase/app";
-import {
-  initializeFirestore,
-  getFirestore,
-  setDoc,
-  doc,
-  addDoc,
-  collection,
-  query,
-  where,
-  onSnapshot,
-} from "firebase/firestore";
-
-import { ThemeColours } from "./ThemeColours";
-import { ListItem } from "./ListItem";
-
 import { SearchBar } from "react-native-elements";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
@@ -40,15 +19,26 @@ import {
   faSortAmountUp,
 } from "@fortawesome/free-solid-svg-icons";
 
+// Firebase imports
+import { firebaseConfig } from ".././Config";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { initializeApp } from "firebase/app";
+import { initializeFirestore, setDoc, doc } from "firebase/firestore";
+
+// My components
+import { ThemeColours } from "./ThemeColours";
+import { ListItem } from "./ListItem";
+
 // Initialise Firebase
 const FBapp = initializeApp(firebaseConfig);
 const FBauth = getAuth();
 const FSdb = initializeFirestore(FBapp, { useFetchStreams: false });
+
 const Tab = createBottomTabNavigator();
 
 export function Home(props) {
   const navigation = useNavigation();
-  const [listData, setListData] = useState();
+  //const [userData, setUserData] = useState();
   const [currentUser, setCurrentUser] = useState();
 
   // Get data of currently signed in user
@@ -66,18 +56,20 @@ export function Home(props) {
     console.log("Home useEffect test", props.user);
   }, [props.auth]);
 
-  // Get user data
-  useEffect(() => {
-    setListData(props.data);
-  }, [props.data]);
+  // // Get user data
+  // useEffect(() => {
+  //   setUserData(props.data);
+  // }, [props.data]);
 
   //const data = { time: new Date().getTime(), user: Math.random() * 100 };
 
-  const renderItem = ({ item }) => (
-    <View>
-      <Text>{item.time}</Text>
-    </View>
-  );
+  // const renderItem = ({ item }) => (
+  //   <View>
+  //     <Text>{item.time}</Text>
+  //   </View>
+  // );
+
+  // Get tasks
 
   // CODE FROM PREVIOUS PROTOTYPE
 

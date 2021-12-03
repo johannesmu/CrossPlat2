@@ -48,7 +48,7 @@ export default function App() {
   const [user, setUser] = useState();
   const [signupError, setSignupError] = useState();
   const [signinError, setSigninError] = useState();
-  const [data, setData] = useState();
+  //const [data, setData] = useState();
 
   useEffect(() => {
     onAuthStateChanged(FBauth, (user) => {
@@ -56,9 +56,9 @@ export default function App() {
         setAuth(true);
         setUser(user);
         console.log("authed");
-        if (!data) {
-          getData();
-        }
+        // if (!data) {
+        //   getData();
+        // }
       } else {
         setAuth(false);
         setUser(null);
@@ -114,27 +114,21 @@ export default function App() {
       .catch((error) => console.log(error.code));
   };
 
-  // Add task to Firebase user collection
-  const addTask = async (FScollection, data) => {
-    console.log(user.uid);
-    await setDoc(doc(FSdb, "users", `${user.uid}`, "tasks"), data);
-  };
-
   // Get data from firebase
-  const getData = () => {
-    console.log("...getting data", user);
-    const FSquery = query(collection(FSdb, `users/${user.uid}/documents`));
-    const unsubscribe = onSnapshot(FSquery, (querySnapshot) => {
-      let FSdata = [];
-      querySnapshot.forEach((doc) => {
-        let item = {};
-        item = doc.data();
-        item.id = doc.id;
-        FSdata.push(item);
-      });
-      setData(FSdata);
-    });
-  };
+  // const getData = () => {
+  //   console.log("...getting data", user);
+  //   const FSquery = query(collection(FSdb, `users/${user.uid}/documents`));
+  //   const unsubscribe = onSnapshot(FSquery, (querySnapshot) => {
+  //     let FSdata = [];
+  //     querySnapshot.forEach((doc) => {
+  //       let item = {};
+  //       item = doc.data();
+  //       item.id = doc.id;
+  //       FSdata.push(item);
+  //     });
+  //     setData(FSdata);
+  //   });
+  // };
 
   return (
     <NavigationContainer>
@@ -171,15 +165,12 @@ export default function App() {
               backgroundColor: ThemeColours.mainBackground,
             },
           }}
-          //component={TabNavigation}
         >
           {(props) => (
             <Home
               {...props}
               auth={auth}
-              add={addTask}
-              data={data}
-              //tab={TabNavigation}
+              //data={data}
             />
           )}
         </Stack.Screen>
@@ -191,7 +182,6 @@ export default function App() {
               backgroundColor: ThemeColours.mainBackground,
             },
           }}
-          //component={TabNavigation}
         >
           {(props) => <AllTasks {...props} />}
         </Stack.Screen>
@@ -203,7 +193,6 @@ export default function App() {
               backgroundColor: ThemeColours.mainBackground,
             },
           }}
-          //component={TabNavigation}
         >
           {(props) => <Settings {...props} />}
         </Stack.Screen>
@@ -215,7 +204,6 @@ export default function App() {
               backgroundColor: ThemeColours.mainBackground,
             },
           }}
-          //component={TabNavigation}
         >
           {(props) => <SplashScreen {...props} />}
         </Stack.Screen>
