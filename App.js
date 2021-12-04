@@ -34,6 +34,7 @@ import {
   onSnapshot,
 } from "firebase/firestore";
 import { ThemeColours } from "./components/ThemeColours";
+import { TaskHome } from "./components/TaskHome";
 
 // Initialise Firebase
 const FBapp = initializeApp(firebaseConfig);
@@ -153,7 +154,7 @@ export default function App() {
             />
           )}
         </Stack.Screen>
-        <Stack.Screen name="TabNavigation" component={TabNavigation} />
+        {/* <Stack.Screen name="TabNavigation" component={TabNavigation} /> */}
         <Stack.Screen
           name="Home"
           options={{
@@ -167,7 +168,7 @@ export default function App() {
           }}
         >
           {(props) => (
-            <Home
+            <TaskHome
               {...props}
               auth={auth}
               //data={data}
