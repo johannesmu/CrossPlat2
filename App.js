@@ -42,6 +42,8 @@ const FBauth = getAuth();
 
 const Stack = createNativeStackNavigator();
 
+// New branch test
+
 export default function App() {
   // Use states
   const [auth, setAuth] = useState();
