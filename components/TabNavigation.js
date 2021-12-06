@@ -5,7 +5,7 @@ import { AllTasks } from "./AllTasks";
 import { Home } from "./Home";
 import { Settings } from "./Settings";
 
-export function TabNavigation() {
+export function TabNavigation( props ) {
   const Tab = createBottomTabNavigator();
 
   return (
@@ -16,7 +16,7 @@ export function TabNavigation() {
             tabBarLabel: "All Tasks",
           }}
         >
-          {(props) => <AllTasks {...props} data={data} />}
+          {(props) => <AllTasks {...props} data={props.data} />}
         </Tab.Screen>
         <Tab.Screen
           name="Home"
