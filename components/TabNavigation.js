@@ -18,7 +18,7 @@ export function TabNavigation( props ) {
   const Tab = createBottomTabNavigator()
 
   return (
-      <Tab.Navigator>
+      <Tab.Navigator initialRouteName="Home">
         <Tab.Screen
           name="Alltasks"
           options={{
