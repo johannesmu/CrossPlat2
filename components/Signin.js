@@ -12,6 +12,7 @@ import {
   Image,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { CommonActions } from '@react-navigation/native';
 import { ThemeColours } from "./ThemeColours";
 import { Feedback } from "./Feedback";
 
@@ -21,16 +22,15 @@ export function Signin(props) {
   const [password, setPassword] = useState();
 
   const submitHandler = () => {
-    // console.log("submitting");
     props.handler(email, password);
   };
 
-  // Gome home after authentication
+  // Gome home after authentication (TabNavigation)
   useEffect(() => {
     if (props.auth === true) {
       navigation.reset({ index: 0, routes: [{ name: "TabNavigation" }] });
     }
-  }, [props.auth]);
+  });
 
   return (
     <View style={styles.container}>

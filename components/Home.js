@@ -65,18 +65,18 @@ export function Home(props) {
   });
 
   // Go to sign in when authed
-  useEffect(() => {
-    if (!props.auth) {
-      navigation.reset({ index: 0, routes: [{ name: "Signin" }] });
-    }
-  }, [props.auth]);
+  // useEffect(() => {
+  //   if (!props.auth) {
+  //     navigation.reset({ index: 0, routes: [{ name: "Signin" }] });
+  //   }
+  // }, [props.auth]);
 
-  useEffect(() => {
-    if (!data.length) {
-      console.log("length:", data.length);
-      getTasks();
-    }
-  });
+  // useEffect(() => {
+  //   if (!data.length) {
+  //     console.log("length:", data.length);
+  //     getTasks();
+  //   }
+  // });
 
   // Get tasks
   const getTasks = async () => {
@@ -310,14 +310,14 @@ export function Home(props) {
       </View>
 
       <View>
-        <Button
+        {/* <Button
           title="All Tasks test"
           onPress={() => navigation.navigate("Alltasks")}
         />
         <Button
           title="Settings test"
           onPress={() => navigation.navigate("Settings")}
-        />
+        /> */}
         {/* <TouchableOpacity
           style={styles.button}
           onPress={() => {
