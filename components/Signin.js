@@ -21,14 +21,14 @@ export function Signin(props) {
   const [password, setPassword] = useState();
 
   const submitHandler = () => {
-    console.log("submitting");
+    // console.log("submitting");
     props.handler(email, password);
   };
 
   // Gome home after authentication
   useEffect(() => {
     if (props.auth === true) {
-      navigation.reset({ index: 0, routes: [{ name: "Home" }] });
+      navigation.reset({ index: 0, routes: [{ name: "TabNavigation" }] });
     }
   }, [props.auth]);
 
