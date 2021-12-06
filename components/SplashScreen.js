@@ -10,7 +10,7 @@ export function SplashScreen( props ) {
     const screenName = ( props.auth ) ? "TabNavigation" : "Signup"
     // timer to change the route to Signup after a certain amount of time
     const timer = setTimeout( () => { 
-      navigation.reset({ index: 0, routes: [{ name: "TabNavigation" }] });
+      navigation.reset({ index: 0, routes: [{ name: screenName }] });
     }, parseFloat(props.time) )
   }, [props.auth] )
 
