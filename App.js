@@ -6,12 +6,10 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 // My components
 import { Signup } from "./components/Signup";
 import { Signin } from "./components/Signin";
-import { Home } from "./components/Home";
 import { Signout } from "./components/Signout";
 import { TabNavigation } from "./components/TabNavigation";
-import { AllTasks } from "./components/AllTasks";
-import { Settings } from "./components/Settings";
 import { SplashScreen } from "./components/SplashScreen";
+
 // Firebase imports
 import { firebaseConfig } from "./Config";
 import { initializeApp } from "firebase/app";
@@ -34,7 +32,7 @@ import {
   onSnapshot,
 } from "firebase/firestore";
 import { ThemeColours } from "./components/ThemeColours";
-import { TaskHome } from "./components/TaskHome";
+
 
 // Initialise Firebase
 const FBapp = initializeApp(firebaseConfig);
@@ -45,18 +43,18 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
   // Use states
-  const [auth, setAuth] = useState();
+  const [auth, setAuth] = useState(false);
   const [user, setUser] = useState();
   const [signupError, setSignupError] = useState();
   const [signinError, setSigninError] = useState();
-  //const [data, setData] = useState();
+  const [data, setData] = useState();
 
   useEffect(() => {
     onAuthStateChanged(FBauth, (user) => {
       if (user) {
         setAuth(true);
         setUser(user);
-        console.log("authed");
+        //console.log(user.uid);
         // if (!data) {
         //   getData();
         // }
@@ -66,6 +64,12 @@ export default function App() {
       }
     });
   });
+
+  useEffect( () => {
+    if( user && !data ) {
+      getData()
+    }
+  }, [user] )
 
   // Firebase sign up handler
   const SignupHandler = (email, password) => {
@@ -116,24 +120,24 @@ export default function App() {
   };
 
   // Get data from firebase
-  // const getData = () => {
-  //   console.log("...getting data", user);
-  //   const FSquery = query(collection(FSdb, `users/${user.uid}/documents`));
-  //   const unsubscribe = onSnapshot(FSquery, (querySnapshot) => {
-  //     let FSdata = [];
-  //     querySnapshot.forEach((doc) => {
-  //       let item = {};
-  //       item = doc.data();
-  //       item.id = doc.id;
-  //       FSdata.push(item);
-  //     });
-  //     setData(FSdata);
-  //   });
-  // };
+  const getData = () => {
+    console.log('...data')
+    const FSquery = query(collection(FSdb, `users/${user.uid}/documents`));
+    const unsubscribe = onSnapshot(FSquery, (querySnapshot) => {
+      let FSdata = [];
+      querySnapshot.forEach((doc) => {
+        let item = {};
+        item = doc.data();
+        item.id = doc.id;
+        FSdata.push(item);
+      });
+      setData(FSdata);
+    });
+  }
 
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator initialRouteName="SplashScreen">
         <Stack.Screen name="Signup" options={{ title: "Sign up" }}>
           {(props) => (
             <Signup
@@ -154,8 +158,25 @@ export default function App() {
             />
           )}
         </Stack.Screen>
-        {/* <Stack.Screen name="TabNavigation" component={TabNavigation} /> */}
-        <Stack.Screen
+        <Stack.Screen 
+          name="TabNavigation"
+          options={{
+            headerTitle: "Home",
+            headerRight: (props) => (
+              <Signout {...props} handler={SignoutHandler} />
+            ),
+            headerStyle: {
+              backgroundColor: ThemeColours.mainBackground,
+            },
+          }}
+        >
+          { (props) => <TabNavigation {...props} 
+                        auth={auth} 
+                        user={user}  
+                        data={data}
+                      /> }
+        </Stack.Screen>
+        {/* <Stack.Screen
           name="Home"
           options={{
             headerTitle: "Home",
@@ -174,8 +195,8 @@ export default function App() {
               //data={data}
             />
           )}
-        </Stack.Screen>
-        <Stack.Screen
+        </Stack.Screen> */}
+        {/* <Stack.Screen
           name="Alltasks"
           options={{
             headerTitle: "All Tasks",
@@ -185,8 +206,8 @@ export default function App() {
           }}
         >
           {(props) => <AllTasks {...props} />}
-        </Stack.Screen>
-        <Stack.Screen
+        </Stack.Screen> */}
+        {/* <Stack.Screen
           name="Settings"
           options={{
             headerTitle: "Settings",
@@ -196,7 +217,7 @@ export default function App() {
           }}
         >
           {(props) => <Settings {...props} />}
-        </Stack.Screen>
+        </Stack.Screen> */}
         <Stack.Screen
           name="SplashScreen"
           options={{
@@ -204,9 +225,10 @@ export default function App() {
             headerStyle: {
               backgroundColor: ThemeColours.mainBackground,
             },
+            headerShown: false
           }}
         >
-          {(props) => <SplashScreen {...props} />}
+          {(props) => <SplashScreen {...props} time="3000" auth={auth}/>}
         </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
